@@ -5,23 +5,17 @@ namespace OZiTAG\Tager\Backend\Settings\Features;
 use Illuminate\Http\Resources\Json\JsonResource;
 use OZiTAG\Tager\Backend\Core\Feature;
 use OZiTAG\Tager\Backend\Settings\Repositories\SettingsRepository;
+use OZiTAG\Tager\Backend\Settings\Utils\Formatter;
 
-class ViewSettingFeature extends Feature
+class ViewSettingsFeature extends Feature
 {
-    private $key;
-
-    public function __construct($key)
-    {
-        $this->key = $key;
-    }
-
-    public function handle(SettingsRepository $repository)
+    public function handle(SettingsRepository $repository, Formatter $formatter)
     {
         $items = $repository->all();
 
         $result = [];
-        foreach($items as $item){
-            $result[$item->key] = $item->value;
+        foreach ($items as $item) {
+            $result[$item->key] = $formatter->formatValue($item->value, $item->type);
         }
 
         return new JsonResource($result);

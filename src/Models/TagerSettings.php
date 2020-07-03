@@ -17,6 +17,7 @@ class TagerSettings extends Model
      */
     protected $fillable = [
         'key',
+        'type',
         'label',
         'value'
     ];

@@ -5,6 +5,7 @@ namespace OZiTAG\Tager\Backend\Settings\Commands;
 use Illuminate\Console\Command;
 use OZiTAG\Tager\Backend\Seo\Models\SeoPage;
 use OZiTAG\Tager\Backend\Seo\Repositories\SeoPageRepository;
+use OZiTAG\Tager\Backend\Settings\Enums\SettingType;
 use OZiTAG\Tager\Backend\Settings\Repositories\SettingsRepository;
 
 class FlushSettingsCommand extends Command
@@ -42,7 +43,9 @@ class FlushSettingsCommand extends Command
                 $model->changed = false;
             }
 
+            $model->type = isset($setting['type']) && SettingType::hasKey($setting['type']) ? $setting['type'] : SettingType::TEXT;
             $model->label = isset($setting['label']) ? $setting['label'] : $setting['label'];
+
             if (!$model->changed) {
                 $model->value = isset($setting['value']) ? $setting['value'] : null;
             }

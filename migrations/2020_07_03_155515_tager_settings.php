@@ -17,12 +17,13 @@ class TagerSettings extends Migration
             $table->id();
 
             $table->string('key');
+            $table->string('type');
             $table->string('label')->nullable();
             $table->longText('value')->nullable();
-            $table->boolean('changed')->notNull()->defaultValue(false);
+            $table->boolean('changed')->default(false);
 
             $table->timestamps();
-            
+
             $table->unique('key');
         });
     }
