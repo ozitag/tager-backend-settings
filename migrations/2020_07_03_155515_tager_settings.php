@@ -20,7 +20,7 @@ class TagerSettings extends Migration
             $table->string('type');
             $table->string('label')->nullable();
             $table->longText('value')->nullable();
-            $table->boolean('changed')->default(false);
+            $table->boolean('changed')->notNull()->defaultValue(false);
 
             $table->timestamps();
 

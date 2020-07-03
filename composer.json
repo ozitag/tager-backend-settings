@@ -1,25 +1,26 @@
 {
-  "name": "ozitag/tager-backend-settings",
-  "description": "Settings Backend",
-  "license": "MIT",
-  "homepage": "https://github.com/ozitag/tager-backend-settings",
-  "authors": [
-    {
-      "name": "Vital Ozierski <v.ozierski@ozitag.com>",
-      "email": "v.ozierski@ozitag.com",
-      "homepage": "https://ozitag.com",
-      "role": "Developer"
+    "name": "ozitag/tager-backend-settings",
+    "description": "Settings Backend",
+    "license": "MIT",
+    "homepage": "https://github.com/ozitag/tager-backend-settings",
+    "authors": [
+        {
+            "name": "Vital Ozierski <v.ozierski@ozitag.com>",
+            "email": "v.ozierski@ozitag.com",
+            "homepage": "https://ozitag.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.2.5",
+        "doctrine/dbal": "^2.10",
+        "laravel/framework": "^7.0",
+        "ozitag/tager-backend-core": "^0.1",
+        "ozerich/laravel-filestorage-db": "^0.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "OZiTAG\\Tager\\Backend\\Settings\\": "src"
+        }
     }
-  ],
-  "require": {
-    "php": "^7.2.5",
-    "doctrine/dbal": "^2.10",
-    "laravel/framework": "^7.0",
-    "ozitag/tager-backend-core": "^0.1"
-  },
-  "autoload": {
-    "psr-4": {
-      "OZiTAG\\Tager\\Backend\\Settings\\": "src"
-    }
-  }
 }

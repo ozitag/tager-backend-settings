@@ -8,7 +8,6 @@ use OZiTAG\Tager\Backend\Settings\Commands\FlushSettingsCommand;
 
 class TagerBackendSettingsServiceProvider extends ServiceProvider
 {
-
     /**
      * Register any application services.
      *
@@ -16,7 +15,9 @@ class TagerBackendSettingsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind('settings', function () {
+            return TagerBackendSettings();
+        });
     }
 
     /**
