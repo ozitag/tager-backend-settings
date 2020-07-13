@@ -16,7 +16,8 @@ class Formatter
             case SettingType::NUMBER:
                 return (int)$value;
             case SettingType::IMAGE:
-                return $fileRepository->find($value);
+                $model = $fileRepository->find($value);
+                return $model ? $model->getUrl() : null;
             case SettingType::TEXT:
             case SettingType::STRING:
                 return is_null($value) ? '' : $value;
