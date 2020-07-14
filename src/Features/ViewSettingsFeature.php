@@ -4,6 +4,7 @@ namespace OZiTAG\Tager\Backend\Settings\Features;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use OZiTAG\Tager\Backend\Core\Feature;
+use OZiTAG\Tager\Backend\Settings\Enums\SettingType;
 use OZiTAG\Tager\Backend\Settings\Repositories\SettingsRepository;
 use OZiTAG\Tager\Backend\Settings\Utils\Formatter;
 
@@ -15,7 +16,12 @@ class ViewSettingsFeature extends Feature
 
         $result = [];
         foreach ($items as $item) {
-            $result[$item->key] = $formatter->formatValue($item->value, $item->type);
+            $value = $formatter->formatValue($item->value, $item->type);;
+            if ($item->type === SettingType::IMAGE && $value) {
+                $value = $value->getUrl();
+            }
+
+            $result[$item->key] = $value;
         }
 
         return new JsonResource($result);
