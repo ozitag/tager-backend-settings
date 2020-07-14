@@ -20,6 +20,18 @@ class UpdateSettingValueJob
         $this->value = $value;
     }
 
+    private function responseError($code, $message)
+    {
+        throw new HttpResponseException(response()->json([
+            'errors' => [
+                'value' => [
+                    'code' => $code,
+                    'message' => $message
+                ]
+            ],
+        ], 400));
+    }
+
     private function checkImageValue(IFileRepository $fileRepository)
     {
         if (!$this->value) {
@@ -27,29 +39,24 @@ class UpdateSettingValueJob
         }
 
         if (!is_numeric($this->value)) {
-            throw new HttpResponseException(response()->json([
-                'errors' => [
-                    'value' => [
-                        'code' => 'INVALID_FORMAT',
-                        'message' => 'Should be a number'
-                    ]
-                ],
-            ], 400));
+            $this->responseError('INVALID_FORMAT', 'Should be a number');
         }
 
         $model = $fileRepository->find($this->value);
         if (!$model) {
-            throw new HttpResponseException(response()->json([
-                'errors' => [
-                    'value' => [
-                        'code' => 'INVALID_VALUE',
-                        'message' => 'File ID ' . $this->value . ' not found'
-                    ]
-                ],
-            ], 400));
+            $this->responseError('INVALID_VALUE', 'File ID ' . $this->value . ' not found');
         }
 
         return $this->value;
+    }
+
+    private function checkNumberValue()
+    {
+        if (!is_numeric($this->value)) {
+            $this->responseError('INVALID_FORMAT', 'Should be a number');
+        }
+
+        return (int)$this->value;
     }
 
     public function handle(IFileRepository $repository)
@@ -57,7 +64,7 @@ class UpdateSettingValueJob
         if ($this->model->type == SettingType::STRING || $this->model->type == SettingType::TEXT) {
             $this->model->value = (string)$this->value;
         } else if ($this->model->type == SettingType::NUMBER) {
-            $this->model->value = (int)$this->value;
+            $this->model->value = $this->checkNumberValue();
         } else if ($this->model->type == SettingType::IMAGE) {
             $this->model->value = $this->checkImageValue($repository);
         }

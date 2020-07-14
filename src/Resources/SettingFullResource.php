@@ -10,7 +10,7 @@ use OZiTAG\Tager\Backend\Mail\Utils\TagerMailConfig;
 use OZiTAG\Tager\Backend\Seo\Models\SeoPage;
 use OZiTAG\Tager\Backend\Settings\Enums\SettingType;
 
-class SettingResource extends JsonResource
+class SettingFullResource extends JsonResource
 {
     private function prepareValue()
     {
@@ -24,7 +24,7 @@ class SettingResource extends JsonResource
             return null;
         }
 
-        return $model->getUrl();
+        return $model->getShortJson();
     }
 
     public function toArray($request)

@@ -2,10 +2,9 @@
 
 namespace OZiTAG\Tager\Backend\Settings\Features\Admin;
 
-use Illuminate\Http\Resources\Json\JsonResource;
 use OZiTAG\Tager\Backend\Core\Feature;
 use OZiTAG\Tager\Backend\Settings\Repositories\SettingsRepository;
-use OZiTAG\Tager\Backend\Settings\Resources\SettingResource;
+use OZiTAG\Tager\Backend\Settings\Resources\SettingFullResource;
 
 class ViewSettingsFeature extends Feature
 {
@@ -23,6 +22,6 @@ class ViewSettingsFeature extends Feature
             abort(404, 'Setting not found');
         }
 
-        return new SettingResource($model);
+        return new SettingFullResource($model);
     }
 }
