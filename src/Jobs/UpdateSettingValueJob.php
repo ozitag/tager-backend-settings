@@ -69,6 +69,7 @@ class UpdateSettingValueJob
             $this->model->value = $this->checkImageValue($repository);
         }
 
+        $this->model->changed = true;
         $this->model->save();
 
         return $this->model;

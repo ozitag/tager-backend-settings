@@ -19,6 +19,7 @@ class TagerSettings extends Model
         'key',
         'type',
         'label',
-        'value'
+        'value',
+        'changed'
     ];
 }
