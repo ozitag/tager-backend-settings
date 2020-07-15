@@ -21,7 +21,10 @@ class ViewSettingsFeature extends Feature
                 $value = $value->getUrl();
             }
 
-            $result[$item->key] = $value;
+            $result[] = [
+                'key' => $item->key,
+                'value' => $value,
+            ];
         }
 
         return new JsonResource($result);
