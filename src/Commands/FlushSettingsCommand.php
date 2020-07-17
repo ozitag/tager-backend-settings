@@ -31,6 +31,11 @@ class FlushSettingsCommand extends Command
             return;
         }
 
+        $exists = [];
+        foreach ($repository->all() as $item) {
+            $exists[$item->key] = false;
+        }
+
         foreach ($settings as $setting) {
             if (!isset($setting['key'])) {
                 continue;
@@ -50,7 +55,15 @@ class FlushSettingsCommand extends Command
                 $model->value = isset($setting['value']) ? $setting['value'] : null;
             }
 
+            $exists[$model->key] = true;
+
             $model->save();
+        }
+
+        foreach ($exists as $key => $value) {
+            if (!$value) {
+                $repository->deleteByKey($key);
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ namespace OZiTAG\Tager\Backend\Settings\Repositories;
 
 use App\Models\Order;
 use OZiTAG\Tager\Backend\Core\Repositories\EloquentRepository;
+use OZiTAG\Tager\Backend\Menus\Models\TagerMenuItem;
 use OZiTAG\Tager\Backend\Settings\Models\TagerSettings;
 
 class SettingsRepository extends EloquentRepository
@@ -16,5 +17,10 @@ class SettingsRepository extends EloquentRepository
     public function findOneByKey(string $key)
     {
         return TagerSettings::query()->where('key', '=', $key)->first();
+    }
+
+    public function deleteByKey(string $key)
+    {
+        TagerSettings::query()->where('key', '=', $key)->delete();
     }
 }
