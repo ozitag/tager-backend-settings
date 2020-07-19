@@ -18,7 +18,7 @@ class ViewSettingsFeature extends Feature
         foreach ($items as $item) {
             $value = $formatter->formatValue($item->value, $item->type);;
             if ($item->type === SettingType::IMAGE && $value) {
-                $value = $value->getUrl();
+                $value = $value->getFullJson();
             }
 
             $result[] = [
