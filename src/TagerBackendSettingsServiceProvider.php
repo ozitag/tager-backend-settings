@@ -2,10 +2,10 @@
 
 namespace OZiTAG\Tager\Backend\Settings;
 
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
+use Illuminate\Support\ServiceProvider;
 use OZiTAG\Tager\Backend\Settings\Commands\FlushSettingsCommand;
 
-class TagerBackendSettingsServiceProvider extends RouteServiceProvider
+class TagerBackendSettingsServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -30,6 +30,7 @@ class TagerBackendSettingsServiceProvider extends RouteServiceProvider
 
         $this->loadMigrationsFrom(__DIR__ . '/../migrations');
 
+
         if ($this->app->runningInConsole()) {
             $this->commands([
                 FlushSettingsCommand::class,
@@ -39,7 +40,5 @@ class TagerBackendSettingsServiceProvider extends RouteServiceProvider
         $this->publishes([
             __DIR__ . '/../config.php' => config_path('tager-settings.php'),
         ]);
-
-        parent::boot();
     }
 }
