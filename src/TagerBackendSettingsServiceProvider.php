@@ -2,11 +2,10 @@
 
 namespace OZiTAG\Tager\Backend\Settings;
 
-use Illuminate\Support\ServiceProvider;
-use OZiTAG\Tager\Backend\Mail\Commands\FlushMailTemplatesCommand;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
 use OZiTAG\Tager\Backend\Settings\Commands\FlushSettingsCommand;
 
-class TagerBackendSettingsServiceProvider extends ServiceProvider
+class TagerBackendSettingsServiceProvider extends RouteServiceProvider
 {
     /**
      * Register any application services.
@@ -31,7 +30,6 @@ class TagerBackendSettingsServiceProvider extends ServiceProvider
 
         $this->loadMigrationsFrom(__DIR__ . '/../migrations');
 
-
         if ($this->app->runningInConsole()) {
             $this->commands([
                 FlushSettingsCommand::class,
@@ -41,5 +39,7 @@ class TagerBackendSettingsServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../config.php' => config_path('tager-settings.php'),
         ]);
+
+        parent::boot();
     }
 }
