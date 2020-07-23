@@ -1,6 +1,6 @@
 <?php
 
-namespace OZiTAG\Tager\Backend\Settings\Commands;
+namespace OZiTAG\Tager\Backend\Settings\Console;
 
 use Illuminate\Console\Command;
 use Ozerich\FileStorage\Storage;

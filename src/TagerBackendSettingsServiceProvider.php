@@ -3,7 +3,7 @@
 namespace OZiTAG\Tager\Backend\Settings;
 
 use Illuminate\Support\ServiceProvider;
-use OZiTAG\Tager\Backend\Settings\Commands\FlushSettingsCommand;
+use OZiTAG\Tager\Backend\Settings\Console\FlushSettingsCommand;
 
 class TagerBackendSettingsServiceProvider extends ServiceProvider
 {
