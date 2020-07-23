@@ -4,8 +4,6 @@ namespace OZiTAG\Tager\Backend\Settings\Commands;
 
 use Illuminate\Console\Command;
 use Ozerich\FileStorage\Storage;
-use OZiTAG\Tager\Backend\Seo\Models\SeoPage;
-use OZiTAG\Tager\Backend\Seo\Repositories\SeoPageRepository;
 use OZiTAG\Tager\Backend\Settings\Enums\SettingType;
 use OZiTAG\Tager\Backend\Settings\Repositories\SettingsRepository;
 use OZiTAG\Tager\Backend\Settings\TagerSettingsConfig;

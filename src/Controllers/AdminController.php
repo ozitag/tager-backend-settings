@@ -2,7 +2,7 @@
 
 namespace OZiTAG\Tager\Backend\Settings\Controllers;
 
-use OZiTAG\Tager\Backend\Core\Controller;
+use OZiTAG\Tager\Backend\Core\Controllers\Controller;
 use OZiTAG\Tager\Backend\Settings\Features\Admin\ListSettingsFeature;
 use OZiTAG\Tager\Backend\Settings\Features\Admin\UpdateSettingsFeature;
 use OZiTAG\Tager\Backend\Settings\Features\Admin\ViewSettingsFeature;

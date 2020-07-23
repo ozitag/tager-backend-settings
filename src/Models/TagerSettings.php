@@ -3,8 +3,6 @@
 namespace OZiTAG\Tager\Backend\Settings\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Ozerich\FileStorage\Models\File;
 
 class TagerSettings extends Model
 {

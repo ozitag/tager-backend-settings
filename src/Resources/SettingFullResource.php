@@ -5,9 +5,6 @@ namespace OZiTAG\Tager\Backend\Settings\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Ozerich\FileStorage\Models\File;
 use Ozerich\FileStorage\Repositories\FileRepository;
-use OZiTAG\Tager\Backend\Mail\Models\TagerMailTemplate;
-use OZiTAG\Tager\Backend\Mail\Utils\TagerMailConfig;
-use OZiTAG\Tager\Backend\Seo\Models\SeoPage;
 use OZiTAG\Tager\Backend\Settings\Enums\SettingType;
 
 class SettingFullResource extends JsonResource

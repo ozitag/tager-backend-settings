@@ -5,12 +5,12 @@ namespace OZiTAG\Tager\Backend\Settings\Jobs;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Ozerich\FileStorage\Repositories\IFileRepository;
 use Ozerich\FileStorage\Storage;
+use OZiTAG\Tager\Backend\Core\Jobs\Job;
 use OZiTAG\Tager\Backend\Settings\Enums\SettingType;
 use OZiTAG\Tager\Backend\Settings\Models\TagerSettings;
-use OZiTAG\Tager\Backend\Settings\Repositories\SettingsRepository;
 use OZiTAG\Tager\Backend\Settings\TagerSettingsConfig;
 
-class UpdateSettingValueJob
+class UpdateSettingValueJob extends Job
 {
     private $model;
 

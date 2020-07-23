@@ -2,9 +2,10 @@
 
 namespace OZiTAG\Tager\Backend\Settings\Jobs;
 
+use OZiTAG\Tager\Backend\Core\Jobs\Job;
 use OZiTAG\Tager\Backend\Settings\Repositories\SettingsRepository;
 
-class GetSettingByKeyJob
+class GetSettingByKeyJob extends Job
 {
     /** @var string */
     private $key;

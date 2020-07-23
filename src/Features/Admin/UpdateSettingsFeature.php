@@ -3,8 +3,7 @@
 namespace OZiTAG\Tager\Backend\Settings\Features\Admin;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
-use OZiTAG\Tager\Backend\Core\Feature;
+use OZiTAG\Tager\Backend\Core\Features\Feature;
 use OZiTAG\Tager\Backend\Settings\Jobs\UpdateSettingValueJob;
 use OZiTAG\Tager\Backend\Settings\Repositories\SettingsRepository;
 use OZiTAG\Tager\Backend\Settings\Resources\SettingResource;

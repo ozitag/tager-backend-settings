@@ -2,9 +2,7 @@
 
 namespace OZiTAG\Tager\Backend\Settings\Repositories;
 
-use App\Models\Order;
 use OZiTAG\Tager\Backend\Core\Repositories\EloquentRepository;
-use OZiTAG\Tager\Backend\Menus\Models\TagerMenuItem;
 use OZiTAG\Tager\Backend\Settings\Models\TagerSettings;
 
 class SettingsRepository extends EloquentRepository
