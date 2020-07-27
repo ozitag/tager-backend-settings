@@ -20,6 +20,13 @@ class TagerBackendSettings
         $field = FieldFactory::create($model->type);
         $field->setValue($model->value);
 
+        if (!empty($field->hasFiles())) {
+            $scenario = TagerSettingsConfig::getFieldParam($model->key, 'scenario');
+            if (!empty($scenario)) {
+                $field->applyFileScenario($scenario);
+            }
+        }
+
         return $field->getValue();
     }
 }
