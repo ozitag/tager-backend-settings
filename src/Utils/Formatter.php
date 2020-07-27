@@ -4,7 +4,7 @@ namespace OZiTAG\Tager\Backend\Settings\Utils;
 
 use Ozerich\FileStorage\Models\File;
 use Ozerich\FileStorage\Repositories\FileRepository;
-use OZiTAG\Tager\Backend\Core\Enums\Enum\FieldType;
+use OZiTAG\Tager\Backend\Utils\Enums\FieldType;
 
 class Formatter
 {
@@ -13,12 +13,12 @@ class Formatter
         $fileRepository = new FileRepository(new File());
 
         switch ($type) {
-            case SettingType::NUMBER:
+            case FieldType::Number:
                 return (int)$value;
-            case SettingType::IMAGE:
+            case FieldType::Image:
                 return $fileRepository->find($value);
-            case SettingType::TEXT:
-            case SettingType::STRING:
+            case FieldType::Text:
+            case FieldType::String:
                 return is_null($value) ? '' : $value;
             default:
                 return $value;

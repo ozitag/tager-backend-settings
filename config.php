@@ -3,7 +3,7 @@
 return [
     [
         'key' => 'phone',
-        'type' => \OZiTAG\Tager\Backend\Settings\Enums\SettingType::STRING,
+        'type' => \OZiTAG\Tager\Backend\Utils\Enums\FieldType::String,
         'label' => 'Phone',
         'value' => '+7 111 111 111',
     ],

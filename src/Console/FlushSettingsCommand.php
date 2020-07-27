@@ -4,7 +4,7 @@ namespace OZiTAG\Tager\Backend\Settings\Console;
 
 use Illuminate\Console\Command;
 use Ozerich\FileStorage\Storage;
-use OZiTAG\Tager\Backend\Core\Enums\Enum\FieldType;
+use OZiTAG\Tager\Backend\Utils\Enums\FieldType;
 use OZiTAG\Tager\Backend\Settings\Repositories\SettingsRepository;
 use OZiTAG\Tager\Backend\Settings\TagerSettingsConfig;
 
@@ -48,14 +48,14 @@ class FlushSettingsCommand extends Command
                 $model->changed = false;
             }
 
-            $model->type = isset($setting['type']) && SettingType::hasKey($setting['type']) ? $setting['type'] : SettingType::TEXT;
+            $model->type = isset($setting['type']) && FieldType::hasKey($setting['type']) ? $setting['type'] : FieldType::Text;
             $model->label = isset($setting['label']) ? $setting['label'] : $setting['label'];
 
             if (!$model->changed) {
                 $model->value = isset($setting['value']) ? $setting['value'] : null;
             }
 
-            if ($model->value && $model->type == SettingType::IMAGE) {
+            if ($model->value && ($model->type == FieldType::Image || $model->type == FieldType::File)) {
                 $scenario = TagerSettingsConfig::getFieldParam($model->key, 'scenario');
                 if ($scenario) {
                     $fileStorage->setFileScenario($model->value, $scenario);

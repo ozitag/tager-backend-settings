@@ -5,13 +5,13 @@ namespace OZiTAG\Tager\Backend\Settings\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Ozerich\FileStorage\Models\File;
 use Ozerich\FileStorage\Repositories\FileRepository;
-use OZiTAG\Tager\Backend\Core\Enums\Enum\FieldType;
+use OZiTAG\Tager\Backend\Utils\Enums\FieldType;
 
 class SettingResource extends JsonResource
 {
     private function prepareValue()
     {
-        if ($this->type != SettingType::IMAGE || !$this->value) {
+        if (($this->type != FieldType::Image && $this->type != FieldType::File) || !$this->value) {
             return $this->value;
         }
 

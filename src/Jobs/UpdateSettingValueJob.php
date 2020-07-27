@@ -6,7 +6,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Ozerich\FileStorage\Repositories\IFileRepository;
 use Ozerich\FileStorage\Storage;
 use OZiTAG\Tager\Backend\Core\Jobs\Job;
-use OZiTAG\Tager\Backend\Core\Enums\Enum\FieldType;
+use OZiTAG\Tager\Backend\Utils\Enums\FieldType;
 use OZiTAG\Tager\Backend\Settings\Models\TagerSettings;
 use OZiTAG\Tager\Backend\Settings\TagerSettingsConfig;
 
@@ -68,11 +68,11 @@ class UpdateSettingValueJob extends Job
 
     public function handle(IFileRepository $repository, Storage $fileStorage)
     {
-        if ($this->model->type == SettingType::STRING || $this->model->type == SettingType::TEXT) {
+        if ($this->model->type == FieldType::String || $this->model->type == FieldType::Text) {
             $this->model->value = (string)$this->value;
-        } else if ($this->model->type == SettingType::NUMBER) {
+        } else if ($this->model->type == FieldType::Number) {
             $this->model->value = $this->checkNumberValue();
-        } else if ($this->model->type == SettingType::IMAGE) {
+        } else if ($this->model->type == FieldType::Image) {
             $this->model->value = $this->checkImageValue($repository, $fileStorage);
         }
 
