@@ -11,17 +11,36 @@ class SettingFullResource extends JsonResource
 {
     private function prepareValue()
     {
-        if (($this->type != FieldType::Image && $this->type != FieldType::File)|| !$this->value) {
+        if (($this->type != FieldType::Image && $this->type != FieldType::File && $this->type != FieldType::Gallery) || !$this->value) {
             return $this->value;
         }
 
-        $repository = new FileRepository(new File());
-        $model = $repository->find($this->value);
-        if (!$model) {
-            return null;
+        if ($this->type == FieldType::Image || $this->type == FieldType::File) {
+            $repository = new FileRepository(new File());
+            $model = $repository->find($this->value);
+            if (!$model) {
+                return null;
+            }
+
+            return $model->getShortJson();
         }
 
-        return $model->getShortJson();
+        if ($this->type == FieldType::Gallery) {
+            $value = $this->value ? explode(',', $this->value) : [];
+            $result = [];
+
+            foreach ($value as $imageId) {
+                $repository = new FileRepository(new File());
+                $model = $repository->find($imageId);
+                if (!$model) {
+                    continue;
+                }
+
+                $result[] = $model->getShortJson();
+            }
+
+            return $result;
+        }
     }
 
     public function toArray($request)

@@ -57,6 +57,36 @@ class UpdateSettingValueJob extends Job
         return $this->value;
     }
 
+    private function checkGalleryValue(IFileRepository $fileRepository, Storage $fileStorage)
+    {
+        if (!$this->value) {
+            return null;
+        }
+
+        if (!is_array($this->value)) {
+            return null;
+        }
+
+        $result = [];
+
+        foreach (array_unique($this->value) as $imageId) {
+            $model = $fileRepository->find($imageId);
+            if (!$model) {
+                $this->responseError('INVALID_VALUE', 'File ID ' . $this->value . ' not found');
+                return null;
+            }
+
+            $scenario = TagerSettingsConfig::getFieldParam($this->model->key, 'scenario');
+            if (!empty($scenario)) {
+                $fileStorage->setFileScenario($imageId, $scenario);
+            }
+
+            $result[] = $imageId;
+        }
+
+        return implode(',', $result);
+    }
+
     private function checkNumberValue()
     {
         if (!is_numeric($this->value)) {
@@ -74,6 +104,8 @@ class UpdateSettingValueJob extends Job
             $this->model->value = $this->checkNumberValue();
         } else if ($this->model->type == FieldType::Image) {
             $this->model->value = $this->checkImageValue($repository, $fileStorage);
+        } else if ($this->model->type == FieldType::Gallery) {
+            $this->model->value = $this->checkGalleryValue($repository, $fileStorage);
         }
 
         $this->model->changed = true;
