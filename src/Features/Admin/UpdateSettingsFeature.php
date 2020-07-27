@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use OZiTAG\Tager\Backend\Core\Features\Feature;
 use OZiTAG\Tager\Backend\Settings\Jobs\UpdateSettingValueJob;
 use OZiTAG\Tager\Backend\Settings\Repositories\SettingsRepository;
+use OZiTAG\Tager\Backend\Settings\Resources\SettingFullResource;
 use OZiTAG\Tager\Backend\Settings\Resources\SettingResource;
 
 class UpdateSettingsFeature extends Feature
@@ -34,6 +35,6 @@ class UpdateSettingsFeature extends Feature
             'value' => $value
         ]);
 
-        return new SettingResource($model);
+        return new SettingFullResource($model);
     }
 }

@@ -5,23 +5,16 @@ namespace OZiTAG\Tager\Backend\Settings\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Ozerich\FileStorage\Models\File;
 use Ozerich\FileStorage\Repositories\FileRepository;
-use OZiTAG\Tager\Backend\Utils\Enums\FieldType;
+use OZiTAG\Tager\Backend\Fields\FieldFactory;
 
 class SettingResource extends JsonResource
 {
     private function prepareValue()
     {
-        if (($this->type != FieldType::Image && $this->type != FieldType::File) || !$this->value) {
-            return $this->value;
-        }
+        $field = FieldFactory::create($this->type);
+        $field->setValue($this->value);
 
-        $repository = new FileRepository(new File());
-        $model = $repository->find($this->value);
-        if (!$model) {
-            return null;
-        }
-
-        return $model->getUrl();
+        return $field->getAdminJson();
     }
 
     public function toArray($request)

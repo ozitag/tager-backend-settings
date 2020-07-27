@@ -3,8 +3,8 @@
 namespace OZiTAG\Tager\Backend\Settings;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use OZiTAG\Tager\Backend\Fields\FieldFactory;
 use OZiTAG\Tager\Backend\Settings\Jobs\GetSettingByKeyJob;
-use OZiTAG\Tager\Backend\Settings\Utils\Formatter;
 
 class TagerBackendSettings
 {
@@ -17,7 +17,9 @@ class TagerBackendSettings
             return null;
         }
 
-        $formatter = new Formatter();
-        return $formatter->formatValue($model->value, $model->type);
+        $field = FieldFactory::create($model->type);
+        $field->setValue($model->value);
+
+        return $field->getValue();
     }
 }

@@ -6,7 +6,8 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Ozerich\FileStorage\Repositories\IFileRepository;
 use Ozerich\FileStorage\Storage;
 use OZiTAG\Tager\Backend\Core\Jobs\Job;
-use OZiTAG\Tager\Backend\Utils\Enums\FieldType;
+use OZiTAG\Tager\Backend\Fields\FieldFactory;
+use OZiTAG\Tager\Backend\HttpCache\HttpCache;
 use OZiTAG\Tager\Backend\Settings\Models\TagerSettings;
 use OZiTAG\Tager\Backend\Settings\TagerSettingsConfig;
 
@@ -34,82 +35,31 @@ class UpdateSettingValueJob extends Job
         ], 400));
     }
 
-    private function checkImageValue(IFileRepository $fileRepository, Storage $fileStorage)
+    private function processFiles()
     {
-        if (!$this->value) {
-            return null;
-        }
-
-        if (!is_numeric($this->value)) {
-            $this->responseError('INVALID_FORMAT', 'Should be a number');
-        }
-
-        $model = $fileRepository->find($this->value);
-        if (!$model) {
-            $this->responseError('INVALID_VALUE', 'File ID ' . $this->value . ' not found');
-        }
-
         $scenario = TagerSettingsConfig::getFieldParam($this->model->key, 'scenario');
         if (!empty($scenario)) {
-            $fileStorage->setFileScenario($this->value, $scenario);
+            $fileStorage->setFileScenario($imageId, $scenario);
         }
-
-        return $this->value;
     }
 
-    private function checkGalleryValue(IFileRepository $fileRepository, Storage $fileStorage)
+    public function handle(IFileRepository $repository, Storage $fileStorage, HttpCache $httpCache)
     {
-        if (!$this->value) {
-            return null;
-        }
+        $field = FieldFactory::create($this->model->type);
+        $field->setValue($this->value);
 
-        if (!is_array($this->value)) {
-            return null;
-        }
-
-        $result = [];
-
-        foreach (array_unique($this->value) as $imageId) {
-            $model = $fileRepository->find($imageId);
-            if (!$model) {
-                $this->responseError('INVALID_VALUE', 'File ID ' . $this->value . ' not found');
-                return null;
-            }
-
+        if (!empty($field->hasFiles())) {
             $scenario = TagerSettingsConfig::getFieldParam($this->model->key, 'scenario');
             if (!empty($scenario)) {
-                $fileStorage->setFileScenario($imageId, $scenario);
+                $field->applyFileScenario($scenario);
             }
-
-            $result[] = $imageId;
         }
 
-        return implode(',', $result);
-    }
-
-    private function checkNumberValue()
-    {
-        if (!is_numeric($this->value)) {
-            $this->responseError('INVALID_FORMAT', 'Should be a number');
-        }
-
-        return (int)$this->value;
-    }
-
-    public function handle(IFileRepository $repository, Storage $fileStorage)
-    {
-        if ($this->model->type == FieldType::String || $this->model->type == FieldType::Text) {
-            $this->model->value = (string)$this->value;
-        } else if ($this->model->type == FieldType::Number) {
-            $this->model->value = $this->checkNumberValue();
-        } else if ($this->model->type == FieldType::Image) {
-            $this->model->value = $this->checkImageValue($repository, $fileStorage);
-        } else if ($this->model->type == FieldType::Gallery) {
-            $this->model->value = $this->checkGalleryValue($repository, $fileStorage);
-        }
-
+        $this->model->value = $field->getDatabaseValue();
         $this->model->changed = true;
         $this->model->save();
+
+        $httpCache->clear('/tager/settings');
 
         return $this->model;
     }
