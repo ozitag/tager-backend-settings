@@ -50,6 +50,7 @@ class FlushSettingsCommand extends Command
             }
 
             $model->priority = $ind + 1;
+            $model->public = isset($setting['private']) ? ($setting['private'] ? false : true) : true;
             $model->type = isset($setting['type']) && FieldType::hasValue($setting['type']) ? $setting['type'] : FieldType::Text;
             $model->label = isset($setting['label']) ? $setting['label'] : $setting['label'];
 

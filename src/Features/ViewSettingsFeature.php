@@ -13,7 +13,7 @@ class ViewSettingsFeature extends Feature
 {
     public function handle(SettingsRepository $repository)
     {
-        $items = $repository->all();
+        $items = $repository->getPublic();
 
         $result = [];
         foreach ($items as $item) {

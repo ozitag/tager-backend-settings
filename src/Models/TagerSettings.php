@@ -19,9 +19,10 @@ class TagerSettings extends Model
         'label',
         'value',
         'changed',
-        'priority'
+        'priority',
+        'public'
     ];
-    
+
     protected static function boot()
     {
         parent::boot();

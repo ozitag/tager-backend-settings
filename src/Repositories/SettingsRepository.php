@@ -14,11 +14,16 @@ class SettingsRepository extends EloquentRepository
 
     public function findOneByKey(string $key)
     {
-        return TagerSettings::query()->where('key', '=', $key)->first();
+        return $this->model->query()->where('key', '=', $key)->first();
+    }
+
+    public function getPublic()
+    {
+        return $this->model->where('public', '=', true)->get();
     }
 
     public function deleteByKey(string $key)
     {
-        TagerSettings::query()->where('key', '=', $key)->delete();
+        $this->model->query()->where('key', '=', $key)->delete();
     }
 }
