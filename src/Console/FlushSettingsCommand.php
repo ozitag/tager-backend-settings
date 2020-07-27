@@ -37,7 +37,7 @@ class FlushSettingsCommand extends Command
             $exists[$item->key] = false;
         }
 
-        foreach ($settings as $setting) {
+        foreach ($settings as $ind => $setting) {
             if (!isset($setting['key'])) {
                 continue;
             }
@@ -49,6 +49,7 @@ class FlushSettingsCommand extends Command
                 $model->changed = false;
             }
 
+            $model->priority = $ind + 1;
             $model->type = isset($setting['type']) && FieldType::hasValue($setting['type']) ? $setting['type'] : FieldType::Text;
             $model->label = isset($setting['label']) ? $setting['label'] : $setting['label'];
 

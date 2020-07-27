@@ -18,6 +18,16 @@ class TagerSettings extends Model
         'type',
         'label',
         'value',
-        'changed'
+        'changed',
+        'priority'
     ];
+    
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('order', function ($builder) {
+            $builder->orderBy('priority', 'ASC');
+        });
+    }
 }
