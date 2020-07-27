@@ -4,7 +4,7 @@ namespace OZiTAG\Tager\Backend\Settings\Utils;
 
 use Ozerich\FileStorage\Models\File;
 use Ozerich\FileStorage\Repositories\FileRepository;
-use OZiTAG\Tager\Backend\Settings\Enums\SettingType;
+use OZiTAG\Tager\Backend\Core\Enums\Enum\FieldType;
 
 class Formatter
 {

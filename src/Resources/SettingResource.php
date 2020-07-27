@@ -5,7 +5,7 @@ namespace OZiTAG\Tager\Backend\Settings\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Ozerich\FileStorage\Models\File;
 use Ozerich\FileStorage\Repositories\FileRepository;
-use OZiTAG\Tager\Backend\Settings\Enums\SettingType;
+use OZiTAG\Tager\Backend\Core\Enums\Enum\FieldType;
 
 class SettingResource extends JsonResource
 {

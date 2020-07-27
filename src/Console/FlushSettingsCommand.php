@@ -4,7 +4,7 @@ namespace OZiTAG\Tager\Backend\Settings\Console;
 
 use Illuminate\Console\Command;
 use Ozerich\FileStorage\Storage;
-use OZiTAG\Tager\Backend\Settings\Enums\SettingType;
+use OZiTAG\Tager\Backend\Core\Enums\Enum\FieldType;
 use OZiTAG\Tager\Backend\Settings\Repositories\SettingsRepository;
 use OZiTAG\Tager\Backend\Settings\TagerSettingsConfig;
 
