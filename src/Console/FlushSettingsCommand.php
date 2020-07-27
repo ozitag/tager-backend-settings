@@ -48,7 +48,7 @@ class FlushSettingsCommand extends Command
                 $model->changed = false;
             }
 
-            $model->type = isset($setting['type']) && FieldType::hasKey($setting['type']) ? $setting['type'] : FieldType::Text;
+            $model->type = isset($setting['type']) && FieldType::hasValue($setting['type']) ? $setting['type'] : FieldType::Text;
             $model->label = isset($setting['label']) ? $setting['label'] : $setting['label'];
 
             if (!$model->changed) {
