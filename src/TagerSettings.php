@@ -5,6 +5,7 @@ namespace OZiTAG\Tager\Backend\Settings;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use OZiTAG\Tager\Backend\Fields\FieldFactory;
 use OZiTAG\Tager\Backend\Settings\Jobs\GetSettingByKeyJob;
+use OZiTAG\Tager\Backend\Settings\Jobs\UpdateSettingValueJob;
 
 class TagerSettings
 {
@@ -28,5 +29,17 @@ class TagerSettings
         }
 
         return $field->getValue();
+    }
+
+    public function set($key, $value)
+    {
+        $model = $this->dispatch(new GetSettingByKeyJob($key));
+        if (!$model) {
+            return false;
+        }
+
+        $model = $this->dispatch(new UpdateSettingValueJob($model, $value));
+
+        return true;
     }
 }
