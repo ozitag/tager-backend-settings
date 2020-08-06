@@ -38,7 +38,7 @@ class TagerSettings
             return false;
         }
 
-        $model = $this->dispatch(new UpdateSettingValueJob($model, $value));
+        $this->dispatch(new UpdateSettingValueJob($model, $value));
 
         return true;
     }
