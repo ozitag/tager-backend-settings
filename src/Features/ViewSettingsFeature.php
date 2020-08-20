@@ -3,10 +3,8 @@
 namespace OZiTAG\Tager\Backend\Settings\Features;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Ozerich\FileStorage\Models\File;
-use Ozerich\FileStorage\Repositories\FileRepository;
 use OZiTAG\Tager\Backend\Core\Features\Feature;
-use OZiTAG\Tager\Backend\Fields\FieldFactory;
+use OZiTAG\Tager\Backend\Fields\TypeFactory;
 use OZiTAG\Tager\Backend\Settings\Repositories\SettingsRepository;
 
 class ViewSettingsFeature extends Feature
@@ -17,12 +15,12 @@ class ViewSettingsFeature extends Feature
 
         $result = [];
         foreach ($items as $item) {
-            $field = FieldFactory::create($item->type);
-            $field->setValue($item->value);
+            $type = TypeFactory::create($item->type);
+            $type->setValue($item->value);
 
             $result[] = [
                 'key' => $item->key,
-                'value' => $field->getPublicValue()
+                'value' => $type->getPublicValue()
             ];
         }
 

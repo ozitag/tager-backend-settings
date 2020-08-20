@@ -3,18 +3,16 @@
 namespace OZiTAG\Tager\Backend\Settings\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Ozerich\FileStorage\Models\File;
-use Ozerich\FileStorage\Repositories\FileRepository;
-use OZiTAG\Tager\Backend\Fields\FieldFactory;
+use OZiTAG\Tager\Backend\Fields\TypeFactory;
 
 class SettingResource extends JsonResource
 {
     private function prepareValue()
     {
-        $field = FieldFactory::create($this->type);
-        $field->setValue($this->value);
+        $type = TypeFactory::create($this->type);
+        $type->setValue($this->value);
 
-        return $field->getAdminJson();
+        return $type->getAdminJson();
     }
 
     public function toArray($request)

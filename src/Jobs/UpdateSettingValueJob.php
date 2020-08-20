@@ -6,7 +6,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Ozerich\FileStorage\Repositories\IFileRepository;
 use Ozerich\FileStorage\Storage;
 use OZiTAG\Tager\Backend\Core\Jobs\Job;
-use OZiTAG\Tager\Backend\Fields\FieldFactory;
+use OZiTAG\Tager\Backend\Fields\TypeFactory;
 use OZiTAG\Tager\Backend\HttpCache\HttpCache;
 use OZiTAG\Tager\Backend\Settings\Models\TagerSettings;
 use OZiTAG\Tager\Backend\Settings\TagerSettingsConfig;
@@ -35,27 +35,19 @@ class UpdateSettingValueJob extends Job
         ], 400));
     }
 
-    private function processFiles()
+    public function handle(HttpCache $httpCache)
     {
-        $scenario = TagerSettingsConfig::getFieldParam($this->model->key, 'scenario');
-        if (!empty($scenario)) {
-            $fileStorage->setFileScenario($imageId, $scenario);
-        }
-    }
+        $type = TypeFactory::create($this->model->type);
+        $type->setValue($this->value);
 
-    public function handle(IFileRepository $repository, Storage $fileStorage, HttpCache $httpCache)
-    {
-        $field = FieldFactory::create($this->model->type);
-        $field->setValue($this->value);
-
-        if (!empty($field->hasFiles())) {
+        if (!empty($type->hasFiles())) {
             $scenario = TagerSettingsConfig::getFieldParam($this->model->key, 'scenario');
             if (!empty($scenario)) {
-                $field->applyFileScenario($scenario);
+                $type->applyFileScenario($scenario);
             }
         }
 
-        $this->model->value = $field->getDatabaseValue();
+        $this->model->value = $type->getDatabaseValue();
         $this->model->changed = true;
         $this->model->save();
 

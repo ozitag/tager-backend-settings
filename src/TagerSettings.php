@@ -3,7 +3,7 @@
 namespace OZiTAG\Tager\Backend\Settings;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use OZiTAG\Tager\Backend\Fields\FieldFactory;
+use OZiTAG\Tager\Backend\Fields\TypeFactory;
 use OZiTAG\Tager\Backend\Settings\Jobs\GetSettingByKeyJob;
 use OZiTAG\Tager\Backend\Settings\Jobs\UpdateSettingValueJob;
 
@@ -18,17 +18,17 @@ class TagerSettings
             return null;
         }
 
-        $field = FieldFactory::create($model->type);
-        $field->setValue($model->value);
+        $type = TypeFactory::create($model->type);
+        $type->setValue($model->value);
 
-        if (!empty($field->hasFiles())) {
+        if (!empty($type->hasFiles())) {
             $scenario = TagerSettingsConfig::getFieldParam($model->key, 'scenario');
             if (!empty($scenario)) {
-                $field->applyFileScenario($scenario);
+                $type->applyFileScenario($scenario);
             }
         }
 
-        return $field->getValue();
+        return $type->getValue();
     }
 
     public function set($key, $value)
