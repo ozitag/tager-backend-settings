@@ -3,13 +3,11 @@
 namespace OZiTAG\Tager\Backend\Settings\Jobs;
 
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Ozerich\FileStorage\Repositories\IFileRepository;
-use Ozerich\FileStorage\Storage;
 use OZiTAG\Tager\Backend\Core\Jobs\Job;
 use OZiTAG\Tager\Backend\Fields\TypeFactory;
 use OZiTAG\Tager\Backend\HttpCache\HttpCache;
 use OZiTAG\Tager\Backend\Settings\Models\TagerSettings;
-use OZiTAG\Tager\Backend\Settings\TagerSettingsConfig;
+use OZiTAG\Tager\Backend\Settings\Utils\TagerSettingsConfig;
 
 class UpdateSettingValueJob extends Job
 {

@@ -7,7 +7,7 @@ use Ozerich\FileStorage\Storage;
 use OZiTAG\Tager\Backend\Fields\Enums\FieldType;
 use OZiTAG\Tager\Backend\Fields\TypeFactory;
 use OZiTAG\Tager\Backend\Settings\Repositories\SettingsRepository;
-use OZiTAG\Tager\Backend\Settings\TagerSettingsConfig;
+use OZiTAG\Tager\Backend\Settings\Utils\TagerSettingsConfig;
 
 class FlushSettingsCommand extends Command
 {
@@ -27,10 +27,7 @@ class FlushSettingsCommand extends Command
 
     public function handle(SettingsRepository $repository)
     {
-        $settings = config()->get('tager-settings');
-        if (!$settings) {
-            return;
-        }
+        $settings = TagerSettingsConfig::getFields();
 
         $exists = [];
         foreach ($repository->all() as $item) {
