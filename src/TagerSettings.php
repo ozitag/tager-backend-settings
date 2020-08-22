@@ -6,6 +6,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use OZiTAG\Tager\Backend\Fields\TypeFactory;
 use OZiTAG\Tager\Backend\Settings\Jobs\GetSettingByKeyJob;
 use OZiTAG\Tager\Backend\Settings\Jobs\UpdateSettingValueJob;
+use OZiTAG\Tager\Backend\Settings\Utils\TagerSettingsConfig;
 
 class TagerSettings
 {

@@ -72,8 +72,8 @@ class TagerSettingsConfig
     {
         $fields = self::getFields();
 
-        foreach ($fields as $field) {
-            if ($field['key'] === $key) {
+        foreach ($fields as $fieldKey => $field) {
+            if ($fieldKey === $key) {
                 return $field;
             }
         }
