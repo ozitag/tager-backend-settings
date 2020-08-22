@@ -9,7 +9,7 @@ use OZiTAG\Tager\Backend\Fields\TypeFactory;
 use OZiTAG\Tager\Backend\Settings\Repositories\SettingsRepository;
 use OZiTAG\Tager\Backend\Settings\Utils\TagerSettingsConfig;
 
-class FlushSettingsCommand extends Command
+class FlushSettingsCommand extends \OZiTAG\Tager\Backend\Core\Console\Command
 {
     /**
      * The console command name.
@@ -25,31 +25,53 @@ class FlushSettingsCommand extends Command
      */
     protected $description = 'Sync DB settings with config';
 
-    public function handle(SettingsRepository $repository)
+    private $repository;
+
+    public function __construct(SettingsRepository $repository)
     {
-        $settings = TagerSettingsConfig::getFields();
+        $this->repository = $repository;
+
+        parent::__construct();
+    }
+
+    public function handle()
+    {
+        $this->log('Start');
+
+        $repository = $this->repository;
 
         $exists = [];
         foreach ($repository->all() as $item) {
             $exists[$item->key] = false;
         }
 
-        foreach ($settings as $ind => $setting) {
-            if (!isset($setting['key'])) {
+        $settings = TagerSettingsConfig::getFields();
+
+        $ind = 0;
+        foreach ($settings as $key => $setting) {
+
+            $this->log($key . ': ', false);
+
+            if (!isset($setting['label'])) {
+                $this->log('SKIP (No Label)');
                 continue;
             }
 
-            $model = $repository->findOneByKey($setting['key']);
+            $model = $repository->findOneByKey($key);
             if (!$model) {
                 $model = $repository->createModelInstance();
-                $model->key = trim($setting['key']);
+                $model->key = trim($key);
                 $model->changed = false;
+
+                $isNew = true;
+            } else{
+                $isNew = false;
             }
 
-            $model->priority = $ind + 1;
+            $model->priority = ++$ind;
             $model->public = isset($setting['private']) ? ($setting['private'] ? false : true) : true;
             $model->type = isset($setting['type']) && FieldType::hasValue($setting['type']) ? $setting['type'] : FieldType::Text;
-            $model->label = isset($setting['label']) ? $setting['label'] : $setting['label'];
+            $model->label = $setting['label'];
 
             $type = TypeFactory::create($model->type);
             $type->setValue(isset($setting['value']) ? $setting['value'] : null);
@@ -68,12 +90,22 @@ class FlushSettingsCommand extends Command
             $exists[$model->key] = true;
 
             $model->save();
+
+            if($isNew) {
+                $this->log('Created ID ' . $model->id);
+            } else{
+                $this->log('Updated ID ' . $model->id);
+            }
         }
 
         foreach ($exists as $key => $value) {
             if (!$value) {
                 $repository->deleteByKey($key);
+
+                $this->log('Delete "' . $key.'"');
             }
         }
+
+        $this->log('End');
     }
 }

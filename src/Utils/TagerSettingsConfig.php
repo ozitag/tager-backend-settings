@@ -7,13 +7,29 @@ use OZiTAG\Tager\Backend\Utils\Helpers\ArrayHelper;
 class TagerSettingsConfig
 {
     /**
+     * @return array
+     */
+    private static function config()
+    {
+        return \config('tager-settings', []);
+    }
+
+    /**
      * @return bool
      */
     public static function hasSections()
     {
-        $items = \config('tager-settings');
+        $items = self::config();
+        if (empty($items)) {
+            return false;
+        }
 
-        return ArrayHelper::isAssoc($items);
+        $firstValue = array_shift($items);
+        if (isset($firstValue['type']) && isset($firstValue['label'])) {
+            return false;
+        }
+
+        return true;
     }
 
     public static function getSections()
@@ -22,38 +38,34 @@ class TagerSettingsConfig
             return [];
         }
 
-        $items = \config('tager-settings');
-
-        return array_keys($items);
+        return array_keys(self::config());
     }
 
     public static function getFields($section = null)
     {
-        $items = \config('tager-settings');
+        $items = self::config();
 
-        $result = [];
-
-        if (ArrayHelper::isAssoc($items)) {
-
-            if ($section) {
-                return $items[$section] ?? [];
-            }
-
-            foreach ($items as $section) {
-                foreach ($section as $field => $model) {
-                    if (!isset($model['key'])) continue;
-                    $result[$model['key']] = $model;
-                }
-            }
-            $result = array_values($result);
-        } else {
-            if ($section) {
-                return [];
-            }
-            $result = $items;
+        if (self::hasSections() == false && $section) {
+            return [];
         }
 
-        return $result;
+        if ($section) {
+            return $items[$section] ?? [];
+        }
+
+        if (self::hasSections()) {
+            $result = [];
+
+            foreach (self::getSections() as $section) {
+                foreach (self::getFields($section) as $key => $field) {
+                    $result[$key] = $field;
+                }
+            }
+
+            return $result;
+        } else {
+            return $items;
+        }
     }
 
     public static function getField($key)

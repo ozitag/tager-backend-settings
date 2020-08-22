@@ -19,9 +19,9 @@ class ListSettingsFeature extends Feature
         $this->settingsRepository = App::make(SettingsRepository::class);
     }
 
-    private function getField($field)
+    private function getField($key)
     {
-        $model = $this->settingsRepository->findOneByKey($field['key']);
+        $model = $this->settingsRepository->findOneByKey($key);
 
         if (!$model) {
             return null;
@@ -34,8 +34,8 @@ class ListSettingsFeature extends Feature
     {
         $result = [];
 
-        foreach ($fields as $field) {
-            $model = $this->getField($field);
+        foreach ($fields as $key => $field) {
+            $model = $this->getField($key);
             if ($model) {
                 $result[] = $model;
             }
@@ -49,7 +49,6 @@ class ListSettingsFeature extends Feature
         $result = [];
 
         if (TagerSettingsConfig::hasSections()) {
-
             foreach (TagerSettingsConfig::getSections() as $section) {
                 $result[] = [
                     'name' => $section,
