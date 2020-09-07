@@ -4,6 +4,7 @@ namespace OZiTAG\Tager\Backend\Settings\Features\Admin;
 
 use Illuminate\Http\Request;
 use OZiTAG\Tager\Backend\Core\Features\Feature;
+use OZiTAG\Tager\Backend\HttpCache\HttpCache;
 use OZiTAG\Tager\Backend\Settings\Jobs\UpdateSettingValueJob;
 use OZiTAG\Tager\Backend\Settings\Repositories\SettingsRepository;
 use OZiTAG\Tager\Backend\Settings\Resources\SettingFullResource;
@@ -18,7 +19,7 @@ class UpdateSettingsFeature extends Feature
         $this->id = $id;
     }
 
-    public function handle(Request $request, SettingsRepository $repository)
+    public function handle(Request $request, SettingsRepository $repository, HttpCache $httpCache)
     {
         $model = $repository->find($this->id);
         if (!$model) {
@@ -34,6 +35,8 @@ class UpdateSettingsFeature extends Feature
             'model' => $model,
             'value' => $value
         ]);
+
+        $httpCache->clear('/tager/settings');
 
         return new SettingFullResource($model);
     }
