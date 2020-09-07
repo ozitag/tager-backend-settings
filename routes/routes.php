@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 
-Route::group(['prefix' => 'admin', 'middleware' => 'api.cache'], function () {
+Route::group(['middleware' => 'api.cache'], function () {
     Route::get('/tager/settings', [\OZiTAG\Tager\Backend\Settings\Controllers\PublicController::class, 'view']);
 });
 
