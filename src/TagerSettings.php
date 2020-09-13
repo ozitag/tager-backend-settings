@@ -23,7 +23,7 @@ class TagerSettings
         $type->setValue($model->value);
 
         if (!empty($type->hasFiles())) {
-            $scenario = TagerSettingsConfig::getFieldParam($model->key, 'scenario');
+            $scenario = TagerSettingsConfig::getFieldScenario($model->key);
             if (!empty($scenario)) {
                 $type->applyFileScenario($scenario);
             }

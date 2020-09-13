@@ -76,7 +76,7 @@ class FlushSettingsCommand extends \OZiTAG\Tager\Backend\Core\Console\Command
             }
 
             if ($type->hasFiles()) {
-                $scenario = TagerSettingsConfig::getFieldParam($model->key, 'scenario');
+                $scenario = TagerSettingsConfig::getFieldScenario($model->key);
                 if ($scenario) {
                     $type->applyFileScenario($scenario);
                 }

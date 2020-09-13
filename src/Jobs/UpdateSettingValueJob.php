@@ -44,14 +44,11 @@ class UpdateSettingValueJob extends Job
 
         $field = $configField->getField();
 
-        $type = TypeFactory::create($this->model->type);
-        if ($field instanceof RepeaterField) {
-            $type->setFields($field->getFields());
-        }
+        $type = $field->getTypeInstance();
         $type->setValue($this->value);
 
         if (!empty($type->hasFiles())) {
-            $scenario = TagerSettingsConfig::getFieldParam($this->model->key, 'scenario');
+            $scenario = TagerSettingsConfig::getFieldScenario($this->model->key);
             if (!empty($scenario)) {
                 $type->applyFileScenario($scenario);
             }

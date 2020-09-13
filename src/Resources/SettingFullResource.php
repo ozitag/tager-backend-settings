@@ -18,10 +18,7 @@ class SettingFullResource extends JsonResource
 
         $field = $settingsField->getField();
 
-        $type = TypeFactory::create($this->type);
-        if ($field instanceof RepeaterField) {
-            $type->setFields($field->getFields());
-        }
+        $type = $field->getTypeInstance();
         $type->loadValueFromDatabase($this->value);
 
         return $type->getAdminFullJson();

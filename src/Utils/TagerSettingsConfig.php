@@ -145,14 +145,14 @@ class TagerSettingsConfig
         return null;
     }
 
-    public static function getFieldParam($key, $param)
+    public static function getFieldScenario($key)
     {
         $field = self::getField($key);
 
-        if (!$field || !isset($field['params'][$param])) {
-            return null;
+        if ($field && $field->getField()->getTypeInstance()->hasFiles()) {
+            return $field->getField()->getMetaParamValue('scenario');
         }
 
-        return $field['params'][$param];
+        return null;
     }
 }
