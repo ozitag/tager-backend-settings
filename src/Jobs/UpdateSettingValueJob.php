@@ -4,7 +4,9 @@ namespace OZiTAG\Tager\Backend\Settings\Jobs;
 
 use Illuminate\Http\Exceptions\HttpResponseException;
 use OZiTAG\Tager\Backend\Core\Jobs\Job;
+use OZiTAG\Tager\Backend\Fields\Fields\RepeaterField;
 use OZiTAG\Tager\Backend\Fields\TypeFactory;
+use OZiTAG\Tager\Backend\Fields\Types\RepeaterType;
 use OZiTAG\Tager\Backend\HttpCache\HttpCache;
 use OZiTAG\Tager\Backend\Settings\Models\TagerSettings;
 use OZiTAG\Tager\Backend\Settings\Utils\TagerSettingsConfig;
@@ -35,7 +37,17 @@ class UpdateSettingValueJob extends Job
 
     public function handle(HttpCache $httpCache)
     {
+        $configField = TagerSettingsConfig::getField($this->model->key);
+        if (!$configField) {
+            return null;
+        }
+
+        $field = $configField->getField();
+
         $type = TypeFactory::create($this->model->type);
+        if ($field instanceof RepeaterField) {
+            $type->setFields($field->getFields());
+        }
         $type->setValue($this->value);
 
         if (!empty($type->hasFiles())) {
