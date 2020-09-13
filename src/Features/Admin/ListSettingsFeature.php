@@ -44,7 +44,7 @@ class ListSettingsFeature extends Feature
         return $result;
     }
 
-    public function handle(SettingsRepository $repository)
+    public function handle()
     {
         $result = [];
 
@@ -63,7 +63,5 @@ class ListSettingsFeature extends Feature
         }
 
         return new JsonResource($result);
-
-        return SettingResource::collection($repository->all());
     }
 }

@@ -10,7 +10,7 @@ class SettingResource extends JsonResource
     private function prepareValue()
     {
         $type = TypeFactory::create($this->type);
-        $type->setValue($this->value);
+        $type->loadValueFromDatabase($this->value);
 
         return $type->getAdminJson();
     }
