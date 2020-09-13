@@ -52,11 +52,6 @@ class FlushSettingsCommand extends \OZiTAG\Tager\Backend\Core\Console\Command
 
             $this->log($key . ': ', false);
 
-            if (!isset($setting['label'])) {
-                $this->log('SKIP (No Label)');
-                continue;
-            }
-
             $model = $repository->findOneByKey($key);
             if (!$model) {
                 $model = $repository->createModelInstance();
@@ -64,17 +59,17 @@ class FlushSettingsCommand extends \OZiTAG\Tager\Backend\Core\Console\Command
                 $model->changed = false;
 
                 $isNew = true;
-            } else{
+            } else {
                 $isNew = false;
             }
 
             $model->priority = ++$ind;
-            $model->public = isset($setting['private']) ? ($setting['private'] ? false : true) : true;
-            $model->type = isset($setting['type']) && FieldType::hasValue($setting['type']) ? $setting['type'] : FieldType::Text;
-            $model->label = $setting['label'];
+            $model->public = $setting->isPrivate() == false;
+            $model->type = $setting->getField()->getType();
+            $model->label = $setting->getField()->getLabel();
 
             $type = TypeFactory::create($model->type);
-            $type->setValue(isset($setting['value']) ? $setting['value'] : null);
+            $type->setValue($setting->getValue());
 
             if (!$model->changed) {
                 $model->value = $type->getDatabaseValue();
@@ -91,9 +86,9 @@ class FlushSettingsCommand extends \OZiTAG\Tager\Backend\Core\Console\Command
 
             $model->save();
 
-            if($isNew) {
+            if ($isNew) {
                 $this->log('Created ID ' . $model->id);
-            } else{
+            } else {
                 $this->log('Updated ID ' . $model->id);
             }
         }
@@ -102,7 +97,7 @@ class FlushSettingsCommand extends \OZiTAG\Tager\Backend\Core\Console\Command
             if (!$value) {
                 $repository->deleteByKey($key);
 
-                $this->log('Delete "' . $key.'"');
+                $this->log('Delete "' . $key . '"');
             }
         }
 

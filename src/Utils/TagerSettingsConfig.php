@@ -2,7 +2,14 @@
 
 namespace OZiTAG\Tager\Backend\Settings\Utils;
 
+use OZiTAG\Tager\Backend\Fields\Base\Field;
+use OZiTAG\Tager\Backend\Fields\Enums\FieldType;
+use OZiTAG\Tager\Backend\Fields\FieldFactory;
+use OZiTAG\Tager\Backend\Fields\Fields\RepeaterField;
+use OZiTAG\Tager\Backend\Fields\Fields\StringField;
+use OZiTAG\Tager\Backend\Settings\Structures\TagerSettingField;
 use OZiTAG\Tager\Backend\Utils\Helpers\ArrayHelper;
+use yii\db\Exception;
 
 class TagerSettingsConfig
 {
@@ -41,6 +48,63 @@ class TagerSettingsConfig
         return array_keys(self::config());
     }
 
+    /**
+     * @param $fieldData
+     * @return TagerSettingField|null
+     * @throws \OZiTAG\Tager\Backend\Fields\Exceptions\InvalidTypeException
+     */
+    private static function parseField($fieldData)
+    {
+        if (is_string($fieldData)) {
+            return new TagerSettingField(new StringField($fieldData), null);
+        }
+
+        if (is_array($fieldData)) {
+            if (!isset($fieldData['label'])) return null;
+
+            $field = FieldFactory::create(
+                $fieldData['type'] ?? FieldType::String,
+                $fieldData['label'],
+                $fieldData['meta'] ?? []
+            );
+
+            if ($field instanceof RepeaterField) {
+                $field->setFields($fieldData['fields'] ?? []);
+                $field->setViewMode($fieldData['viewMode'] ?? null);
+            }
+
+            return new TagerSettingField(
+                $field,
+                $fieldData['value'] ?? null,
+                $fieldData['private'] ?? false
+            );
+
+        }
+
+        return null;
+    }
+
+    /**
+     * @param $fieldsData
+     * @return TagerSettingField[]
+     * @throws \OZiTAG\Tager\Backend\Fields\Exceptions\InvalidTypeException
+     */
+    private static function parseFields($fieldsData)
+    {
+        $result = [];
+
+        foreach ($fieldsData as $key => $field) {
+            $result[$key] = self::parseField($field);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param null $section
+     * @return TagerSettingField[]
+     * @throws \OZiTAG\Tager\Backend\Fields\Exceptions\InvalidTypeException
+     */
     public static function getFields($section = null)
     {
         $items = self::config();
@@ -50,7 +114,7 @@ class TagerSettingsConfig
         }
 
         if ($section) {
-            return $items[$section] ?? [];
+            return self::parseFields($items[$section]) ?? [];
         }
 
         if (self::hasSections()) {
@@ -64,7 +128,7 @@ class TagerSettingsConfig
 
             return $result;
         } else {
-            return $items;
+            return self::parseFields($items);
         }
     }
 

@@ -4,6 +4,7 @@ namespace OZiTAG\Tager\Backend\Settings\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use OZiTAG\Tager\Backend\Fields\TypeFactory;
+use OZiTAG\Tager\Backend\Settings\Utils\TagerSettingsConfig;
 
 class SettingFullResource extends JsonResource
 {
@@ -15,14 +16,23 @@ class SettingFullResource extends JsonResource
         return $type->getAdminFullJson();
     }
 
+    private function prepareField()
+    {
+        $field = TagerSettingsConfig::getField($this->key);
+        if (!$field) {
+            return null;
+        }
+
+        return $field->getField()->getJson();
+    }
+
     public function toArray($request)
     {
         return [
             'id' => $this->id,
             'key' => $this->key,
-            'type' => $this->type,
-            'label' => $this->label,
-            'value' => $this->prepareValue()
+            'value' => $this->prepareValue(),
+            'field' => $this->prepareField()
         ];
     }
 }
