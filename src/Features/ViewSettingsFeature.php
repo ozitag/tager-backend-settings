@@ -16,7 +16,7 @@ class ViewSettingsFeature extends Feature
         $result = [];
         foreach ($items as $item) {
             $type = TypeFactory::create($item->type);
-            $type->setValue($item->value);
+            $type->loadValueFromDatabase($item->value);
 
             $result[] = [
                 'key' => $item->key,
