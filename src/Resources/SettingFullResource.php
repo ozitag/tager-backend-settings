@@ -39,7 +39,7 @@ class SettingFullResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'template' => $this->prepareField(),
+            'config' => $this->prepareField(),
             'value' => $this->prepareValue(),
         ];
     }
