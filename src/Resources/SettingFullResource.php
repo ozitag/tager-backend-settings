@@ -29,10 +29,9 @@ class SettingFullResource extends JsonResource
             return null;
         }
 
-        return array_merge(
-            ['name' => $this->key],
-            $field->getField()->getJson()
-        );
+        $field->getField()->setName($this->key);
+
+        return $field->getField()->getJson();
     }
 
     public function toArray($request)
