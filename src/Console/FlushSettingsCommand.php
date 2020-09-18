@@ -54,6 +54,7 @@ class FlushSettingsCommand extends \OZiTAG\Tager\Backend\Core\Console\Command
 
             $model = $repository->findOneByKey($key);
             if (!$model) {
+                $repository->deleteByKey($key);
                 $model = $repository->createModelInstance();
                 $model->key = trim($key);
                 $model->changed = false;
