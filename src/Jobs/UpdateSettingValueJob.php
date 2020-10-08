@@ -8,6 +8,8 @@ use OZiTAG\Tager\Backend\Fields\Fields\RepeaterField;
 use OZiTAG\Tager\Backend\Fields\TypeFactory;
 use OZiTAG\Tager\Backend\Fields\Types\RepeaterType;
 use OZiTAG\Tager\Backend\HttpCache\HttpCache;
+use OZiTAG\Tager\Backend\Settings\Events\TagerSettingChanged;
+use OZiTAG\Tager\Backend\Settings\Events\TagerSettingsChanged;
 use OZiTAG\Tager\Backend\Settings\Models\TagerSettings;
 use OZiTAG\Tager\Backend\Settings\Utils\TagerSettingsConfig;
 
@@ -59,6 +61,8 @@ class UpdateSettingValueJob extends Job
         $this->model->save();
 
         $httpCache->clear('/tager/settings');
+
+        event(new TagerSettingChanged($this->model->key));
 
         return $this->model;
     }
