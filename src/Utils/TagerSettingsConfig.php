@@ -149,7 +149,7 @@ class TagerSettingsConfig
     {
         $field = self::getField($key);
 
-        if ($field && $field->getField()->getTypeInstance()->hasFiles()) {
+        if ($field) {
             return $field->getField()->getMetaParamValue('scenario');
         }
 
