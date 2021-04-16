@@ -30,6 +30,7 @@ class SettingsServiceProvider extends ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
 
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'tager-settings');
         $this->loadMigrationsFrom(__DIR__ . '/../migrations');
 
         if ($this->app->runningInConsole()) {
@@ -42,9 +43,9 @@ class SettingsServiceProvider extends ServiceProvider
             __DIR__ . '/../config.php' => config_path('tager-settings.php'),
         ]);
 
-        TagerScopes::registerGroup('Settings', [
-            SettingScope::View => 'View settings',
-            SettingScope::Edit => 'Edit settings'
+        TagerScopes::registerGroup(__('tager-settings::scopes.group'), [
+            SettingScope::View => __('tager-settings::scopes.view_settings'),
+            SettingScope::Edit => __('tager-settings::scopes.edit_settings')
         ]);
     }
 }
