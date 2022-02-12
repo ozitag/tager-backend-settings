@@ -2,33 +2,15 @@
 
 namespace OZiTAG\Tager\Backend\Settings\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use OZiTAG\Tager\Backend\Core\Models\TModel;
 
-class TagerSettings extends Model
+class TagerSettings extends TModel
 {
     protected $table = 'tager_settings';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    static string $defaultOrder = 'priority ASC';
+
     protected $fillable = [
-        'key',
-        'type',
-        'label',
-        'value',
-        'changed',
-        'priority',
-        'public'
+        'key', 'type', 'label', 'value', 'changed', 'priority', 'public'
     ];
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope('order', function ($builder) {
-            $builder->orderBy('priority', 'ASC');
-        });
-    }
 }

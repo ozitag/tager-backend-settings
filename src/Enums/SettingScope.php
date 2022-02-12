@@ -2,10 +2,8 @@
 
 namespace OZiTAG\Tager\Backend\Settings\Enums;
 
-use OZiTAG\Tager\Backend\Core\Enums\Enum;
-
-final class SettingScope extends Enum
+enum SettingScope:string
 {
-    const View = 'settings.view';
-    const Edit = 'settings.edit';
+    case View = 'settings.view';
+    case Edit = 'settings.edit';
 }

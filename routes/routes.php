@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use OZiTAG\Tager\Backend\Rbac\Facades\AccessControlMiddleware;
 use OZiTAG\Tager\Backend\Settings\Enums\SettingScope;
 
-
 Route::group(['middleware' => 'api.cache'], function () {
     Route::get('/tager/settings', [\OZiTAG\Tager\Backend\Settings\Controllers\PublicController::class, 'view']);
 });

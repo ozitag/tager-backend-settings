@@ -9,7 +9,6 @@ use OZiTAG\Tager\Backend\Fields\Fields\RepeaterField;
 use OZiTAG\Tager\Backend\Fields\Fields\StringField;
 use OZiTAG\Tager\Backend\Settings\Structures\TagerSettingField;
 use OZiTAG\Tager\Backend\Utils\Helpers\ArrayHelper;
-use yii\db\Exception;
 
 class TagerSettingsConfig
 {

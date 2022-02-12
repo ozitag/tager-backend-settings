@@ -44,8 +44,8 @@ class SettingsServiceProvider extends ServiceProvider
         ]);
 
         TagerScopes::registerGroup(__('tager-settings::scopes.group'), [
-            SettingScope::View => __('tager-settings::scopes.view_settings'),
-            SettingScope::Edit => __('tager-settings::scopes.edit_settings')
+            SettingScope::View->value => __('tager-settings::scopes.view_settings'),
+            SettingScope::Edit->value => __('tager-settings::scopes.edit_settings')
         ]);
     }
 }
