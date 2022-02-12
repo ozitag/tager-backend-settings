@@ -3,6 +3,7 @@
 namespace OZiTAG\Tager\Backend\Settings\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use OZiTAG\Tager\Backend\Fields\Enums\FieldType;
 use OZiTAG\Tager\Backend\Fields\TypeFactory;
 use OZiTAG\Tager\Backend\Settings\Utils\TagerSettingsConfig;
 
@@ -10,7 +11,7 @@ class SettingResource extends JsonResource
 {
     private function prepareValue()
     {
-        $type = TypeFactory::create($this->type);
+        $type = TypeFactory::create(FieldType::from($this->type));
         $type->loadValueFromDatabase($this->value);
 
         return $type->getAdminJson();

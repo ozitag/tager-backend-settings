@@ -69,7 +69,7 @@ class FlushSettingsCommand extends \OZiTAG\Tager\Backend\Core\Console\Command
             $model->type = $setting->getField()->getType();
             $model->label = $setting->getField()->getLabel();
 
-            $type = TypeFactory::create($model->type);
+            $type = TypeFactory::create(FieldType::from($model->type));
             $type->setValue($setting->getValue());
 
             if (!$model->changed) {

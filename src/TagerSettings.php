@@ -3,6 +3,7 @@
 namespace OZiTAG\Tager\Backend\Settings;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use OZiTAG\Tager\Backend\Fields\Enums\FieldType;
 use OZiTAG\Tager\Backend\Fields\TypeFactory;
 use OZiTAG\Tager\Backend\Settings\Jobs\GetSettingByKeyJob;
 use OZiTAG\Tager\Backend\Settings\Jobs\UpdateSettingValueJob;
@@ -19,7 +20,7 @@ class TagerSettings
             return null;
         }
 
-        $type = TypeFactory::create($model->type);
+        $type = TypeFactory::create(FieldType::from($model->type));
         $type->setValue($model->value);
 
         if (!empty($type->hasFiles())) {
