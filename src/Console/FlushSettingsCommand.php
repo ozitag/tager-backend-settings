@@ -66,10 +66,10 @@ class FlushSettingsCommand extends \OZiTAG\Tager\Backend\Core\Console\Command
 
             $model->priority = ++$ind;
             $model->public = $setting->isPrivate() == false;
-            $model->type = $setting->getField()->getType();
+            $model->type = $setting->getField()->getType()->value;
             $model->label = $setting->getField()->getLabel();
 
-            $type = TypeFactory::create(FieldType::from($model->type));
+            $type = TypeFactory::create($setting->getField()->getType());
             $type->setValue($setting->getValue());
 
             if (!$model->changed) {
