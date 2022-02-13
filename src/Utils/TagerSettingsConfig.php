@@ -4,6 +4,7 @@ namespace OZiTAG\Tager\Backend\Settings\Utils;
 
 use OZiTAG\Tager\Backend\Fields\Base\Field;
 use OZiTAG\Tager\Backend\Fields\Enums\FieldType;
+use OZiTAG\Tager\Backend\Fields\Enums\RepeaterView;
 use OZiTAG\Tager\Backend\Fields\FieldFactory;
 use OZiTAG\Tager\Backend\Fields\Fields\RepeaterField;
 use OZiTAG\Tager\Backend\Fields\Fields\StringField;
@@ -69,7 +70,7 @@ class TagerSettingsConfig
 
             if ($field instanceof RepeaterField) {
                 $field->setFields($fieldData['fields'] ?? []);
-                $field->setViewMode($fieldData['viewMode'] ?? null);
+                $field->setViewMode($fieldData['viewMode'] ?? RepeaterView::Table);
             }
 
             return new TagerSettingField(
