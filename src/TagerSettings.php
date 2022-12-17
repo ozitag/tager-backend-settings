@@ -21,7 +21,7 @@ class TagerSettings
         }
 
         $type = TypeFactory::create(FieldType::from($model->type));
-        $type->setValue($model->value);
+        $type->loadValueFromDatabase($model->value);
 
         if (!empty($type->hasFiles())) {
             $scenario = TagerSettingsConfig::getFieldScenario($model->key);
