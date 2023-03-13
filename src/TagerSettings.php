@@ -6,7 +6,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use OZiTAG\Tager\Backend\Fields\Base\Type;
 use OZiTAG\Tager\Backend\Fields\Enums\FieldType;
 use OZiTAG\Tager\Backend\Fields\TypeFactory;
-use OZiTAG\Tager\Backend\Fields\Types\RepeaterType;
 use OZiTAG\Tager\Backend\Settings\Jobs\GetSettingByKeyJob;
 use OZiTAG\Tager\Backend\Settings\Jobs\UpdateSettingValueJob;
 use OZiTAG\Tager\Backend\Settings\Utils\TagerSettingsConfig;
@@ -17,7 +16,7 @@ class TagerSettings
 
     private function loadType(string $key): ?Type
     {
-        $model = $this->dispatch(new GetSettingByKeyJob($key));
+        $model = $this->dispatchSync(new GetSettingByKeyJob($key));
         if (!$model) {
             return null;
         }
@@ -68,12 +67,12 @@ class TagerSettings
 
     public function set($key, $value)
     {
-        $model = $this->dispatch(new GetSettingByKeyJob($key));
+        $model = $this->dispatchSync(new GetSettingByKeyJob($key));
         if (!$model) {
             return false;
         }
 
-        $this->dispatch(new UpdateSettingValueJob($model, $value));
+        $this->dispatchSync(new UpdateSettingValueJob($model, $value));
 
         return true;
     }
