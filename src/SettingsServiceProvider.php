@@ -17,7 +17,7 @@ class SettingsServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('settings', function () {
-            return TagerSettings();
+            return new TagerSettings();
         });
     }
 
